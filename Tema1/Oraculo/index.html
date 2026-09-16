@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>El oráculo de los números</title>
-    <!-- Fase 1: Conexión con defer -->
+    <!-- Criterio cumplido: carga con defer -->
     <script src="app.js" defer></script>
 </head>
 <body>
@@ -14,10 +14,13 @@
     <div>
         <input type="number" id="numeroInput" placeholder="Tu número (1-100)">
         <button id="adivinarBtn">Consultar al oráculo</button>
+        <!-- Reto: Botón para reiniciar (oculto al principio) -->
+        <button id="reiniciarBtn" style="display: none;">Nueva profecía</button>
     </div>
 
-    <!-- Párrafos para feedback y marcador -->
     <p id="mensaje"></p>
-    <p id="marcador">Intentos: 0</p>
+    <p id="marcador">Intentos: 0 / 7</p>
+    <!-- Reto: Párrafo para el historial -->
+    <p id="historial"></p>
 </body>
 </html>
