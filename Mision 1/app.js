@@ -2,6 +2,8 @@ const TOTAL_CELDAS = 9;
 const DURACION_PARTIDA_S = 30;
 const SEGUNDOS_AVISO = 5;
 const CLAVE_RECORDS = 'cazaAlBug.records';
+const CLAVE_TEMA = 'cazaAlBug.modoOscuro';
+const CODIGO_SECRETO = 'debug';
 
 // Cada dificultad cambia cuánto tiempo se deja ver un bug y la pausa entre apariciones
 const DIFICULTADES = {
@@ -45,6 +47,7 @@ const estado = {
 };
 
 let celdas = [];
+let teclasRecientes = '';
 
 /* ---------- Récords (localStorage) ---------- */
 
@@ -67,6 +70,37 @@ function guardarRecord(claveDificultad, puntos) {
 
 function obtenerRecord(claveDificultad) {
     return leerRecords()[claveDificultad] ?? 0;
+}
+
+/* ---------- Modo oscuro secreto ---------- */
+
+function aplicarModoOscuro(activo) {
+    document.body.classList.toggle('modo-oscuro', activo);
+    try {
+        localStorage.setItem(CLAVE_TEMA, String(activo));
+    } catch {
+        // Sin almacenamiento disponible: el tema solo dura mientras la página esté abierta
+    }
+}
+
+function cargarModoOscuro() {
+    try {
+        return localStorage.getItem(CLAVE_TEMA) === 'true';
+    } catch {
+        return false;
+    }
+}
+
+// Guarda las últimas letras pulsadas y activa el modo oscuro al escribir el código secreto
+function comprobarCodigoSecreto(tecla) {
+    teclasRecientes = (teclasRecientes + tecla.toLowerCase()).slice(-CODIGO_SECRETO.length);
+
+    if (teclasRecientes === CODIGO_SECRETO) {
+        teclasRecientes = '';
+        const activo = !document.body.classList.contains('modo-oscuro');
+        aplicarModoOscuro(activo);
+        mensaje.textContent = activo ? '🌙 Modo debug nocturno activado.' : '☀️ Vuelta al modo diurno.';
+    }
 }
 
 /* ---------- Tablero ---------- */
@@ -271,8 +305,22 @@ tablero.addEventListener('click', (evento) => {
     if (celda) golpear(celda);
 });
 
+// Teclado: 1-9 golpean la celda correspondiente y cualquier letra alimenta el código secreto
+document.addEventListener('keydown', (evento) => {
+    if (evento.repeat || evento.ctrlKey || evento.metaKey || evento.altKey) return;
+
+    const numero = Number(evento.key);
+    if (Number.isInteger(numero) && numero >= 1 && numero <= TOTAL_CELDAS) {
+        golpear(celdas[numero - 1]);
+        return;
+    }
+
+    if (evento.key.length === 1) comprobarCodigoSecreto(evento.key);
+});
+
 botonJugar.addEventListener('click', empezarPartida);
 selectorDificultad.addEventListener('change', actualizarRecord);
 
 crearTablero();
 actualizarRecord();
+aplicarModoOscuro(cargarModoOscuro());

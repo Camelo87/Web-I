@@ -14,6 +14,21 @@
     --fuente-mono: "Cascadia Code", "Consolas", "Courier New", monospace;
 }
 
+/* Bonus: modo oscuro que se activa escribiendo el código secreto */
+body.modo-oscuro {
+    --fondo: #0f141d;
+    --superficie: #19202c;
+    --texto: #e3e8f1;
+    --texto-suave: #8d97aa;
+    --acento: #5b9bff;
+    --celda: #212a38;
+    --celda-borde: #313c4e;
+    --exito: #2fbf71;
+    --peligro: #ff6b6b;
+    --dorado: #ffc53d;
+    --sombra: 0 4px 14px rgba(0, 0, 0, 0.4);
+}
+
 *,
 *::before,
 *::after {
@@ -29,11 +44,12 @@ body {
     display: flex;
     justify-content: center;
     padding: 24px 16px;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 .app {
     width: 100%;
-    max-width: 480px;
+    max-width: 420px;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -118,10 +134,22 @@ body {
     border: 2px solid var(--celda-borde);
     border-radius: var(--radio);
     background: var(--celda);
+    color: inherit;
     font-size: 2.6rem;
     cursor: pointer;
     display: grid;
     place-items: center;
+}
+
+.celda:hover {
+    border-color: var(--acento);
+}
+
+.celda:focus-visible,
+.boton:focus-visible,
+.selector__campo:focus-visible {
+    outline: 3px solid var(--acento);
+    outline-offset: 2px;
 }
 
 .celda--activa {
