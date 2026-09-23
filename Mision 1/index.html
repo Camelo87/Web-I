@@ -23,15 +23,38 @@
                 <span class="panel__etiqueta">Tiempo</span>
                 <span class="panel__valor" id="tiempo">30</span>
             </div>
+            <div class="panel__dato">
+                <span class="panel__etiqueta">Combo</span>
+                <span class="panel__valor" id="combo">x1</span>
+            </div>
+            <div class="panel__dato">
+                <span class="panel__etiqueta">Récord</span>
+                <span class="panel__valor" id="record">0</span>
+            </div>
         </section>
 
         <section class="tablero" id="tablero" aria-label="Tablero de juego"></section>
 
         <div class="controles">
+            <label class="selector">
+                <span class="selector__etiqueta">Nivel</span>
+                <select class="selector__campo" id="dificultad">
+                    <option value="junior">Junior</option>
+                    <option value="senior" selected>Senior</option>
+                    <option value="diezx">10x</option>
+                </select>
+            </label>
             <button class="boton" id="botonJugar" type="button">Empezar</button>
         </div>
 
         <p class="mensaje" id="mensaje" aria-live="polite">Pulsa «Empezar» para compilar la partida.</p>
+
+        <ul class="leyenda" aria-label="Leyenda">
+            <li class="leyenda__item"><span class="leyenda__emoji">🐛</span> Bug · +1</li>
+            <li class="leyenda__item"><span class="leyenda__emoji">🪲</span> Crítico · +3, huye rápido</li>
+            <li class="leyenda__item"><span class="leyenda__emoji">✨</span> Feature · ¡no la toques! −2</li>
+        </ul>
+        <p class="nota">Cada 5 aciertos seguidos sube el multiplicador (máx. x3).</p>
     </main>
 </body>
 </html>

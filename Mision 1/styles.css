@@ -8,6 +8,7 @@
     --celda-borde: #c6cfdd;
     --exito: #1f9d55;
     --peligro: #d64545;
+    --dorado: #e0a100;
     --radio: 12px;
     --sombra: 0 4px 14px rgba(29, 36, 51, 0.08);
     --fuente-mono: "Cascadia Code", "Consolas", "Courier New", monospace;
@@ -100,6 +101,10 @@ body {
     }
 }
 
+.panel__valor--combo {
+    color: var(--dorado);
+}
+
 /* Tablero 3x3 */
 .tablero {
     display: grid;
@@ -153,6 +158,20 @@ body {
     animation: aparecer 0.15s ease-out;
 }
 
+.celda__bicho--critico {
+    filter: drop-shadow(0 0 6px var(--dorado));
+}
+
+.celda__bicho--feature {
+    animation: aparecer 0.15s ease-out, girar 1.2s linear infinite;
+}
+
+@keyframes girar {
+    to {
+        rotate: 360deg;
+    }
+}
+
 @keyframes aparecer {
     from {
         transform: scale(0.3) translateY(40%);
@@ -177,7 +196,29 @@ body {
 .controles {
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
     gap: 10px;
+}
+
+.selector {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.selector__etiqueta {
+    font-size: 0.85rem;
+    color: var(--texto-suave);
+}
+
+.selector__campo {
+    font: inherit;
+    padding: 8px 10px;
+    border: 2px solid var(--celda-borde);
+    border-radius: 8px;
+    background: var(--superficie);
+    color: var(--texto);
 }
 
 .boton {
@@ -201,5 +242,32 @@ body {
     min-height: 1.5em;
     text-align: center;
     font-family: var(--fuente-mono);
+    color: var(--texto-suave);
+}
+
+/* Leyenda */
+.leyenda {
+    list-style: none;
+    margin: 0;
+    padding: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 16px;
+    background: var(--superficie);
+    border-radius: var(--radio);
+    box-shadow: var(--sombra);
+    font-size: 0.9rem;
+}
+
+.leyenda__emoji {
+    font-size: 1.2rem;
+    vertical-align: middle;
+}
+
+.nota {
+    margin: 0;
+    text-align: center;
+    font-size: 0.85rem;
     color: var(--texto-suave);
 }
