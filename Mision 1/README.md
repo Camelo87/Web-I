@@ -46,7 +46,6 @@ propia.
 Prompts reales:
 - "Necesito que vayas haciendo commits mientras completas fases de esta
   web (unas 5) para yo ir viendo lo que vas haciendo", junto con el enunciado completo de la misión.
-- "Ponte en el papel del profesor que va a evaluar mi index.html, styles.css y app.js con esta rúbrica: manipulación del DOM (20), eventos (15), fundamentos de JS (15), calidad del código (10) y originalidad (10). Señálame los tres aspectos más flojos y explícame por qué lo son, pero no los corrijas todavía."
 - "Quiero que le pongas algo de originalidad al proyecto para que no sea
   tal cual como el jefe del cuaderno, me gustaría algo relacionado con el
   póker". De las opciones que me propuso elegí esta, porque aprovechaba
