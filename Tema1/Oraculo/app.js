@@ -23,7 +23,7 @@ function iniciarJuego() {
     input.value = '';
     input.disabled = false;
     botonAdivinar.disabled = false;
-    botonReiniciar.style.display = 'none';
+    botonReiniciar.hidden = true;
 
     mensaje.textContent = 'El oráculo está listo...';
     marcador.textContent = `Intentos: 0 / ${MAX_INTENTOS}`;
@@ -82,7 +82,7 @@ botonAdivinar.addEventListener('click', () => {
 function finalizarJuego() {
     botonAdivinar.disabled = true;
     input.disabled = true;
-    botonReiniciar.style.display = 'inline-block';
+    botonReiniciar.hidden = false;
 }
 
 // Reto: Botón "Nueva profecía" reinicia la partida
