@@ -6,6 +6,8 @@
     --acento: #2f6fed;
     --celda: #dfe5ef;
     --celda-borde: #c6cfdd;
+    --exito: #1f9d55;
+    --peligro: #d64545;
     --radio: 12px;
     --sombra: 0 4px 14px rgba(29, 36, 51, 0.08);
     --fuente-mono: "Cascadia Code", "Consolas", "Courier New", monospace;
@@ -87,6 +89,17 @@ body {
     font-weight: 700;
 }
 
+.panel__valor--aviso {
+    color: var(--peligro);
+    animation: latido 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes latido {
+    to {
+        transform: scale(1.15);
+    }
+}
+
 /* Tablero 3x3 */
 .tablero {
     display: grid;
@@ -108,6 +121,31 @@ body {
 
 .celda--activa {
     border-color: var(--acento);
+}
+
+.celda--acierto {
+    animation: destello-acierto 0.3s ease-out;
+}
+
+.celda--fallo {
+    animation: temblor 0.3s ease-in-out;
+}
+
+@keyframes destello-acierto {
+    from {
+        background: var(--exito);
+    }
+}
+
+@keyframes temblor {
+    25% {
+        transform: translateX(-4px);
+        border-color: var(--peligro);
+    }
+    75% {
+        transform: translateX(4px);
+        border-color: var(--peligro);
+    }
 }
 
 .celda__bicho {
