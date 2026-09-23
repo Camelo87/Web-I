@@ -3,30 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Caza al Bug · Debug Mode</title>
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E🐛%3C/text%3E%3C/svg%3E">
+    <title>Caza la Mano · Póker al vuelo</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E🃏%3C/text%3E%3C/svg%3E">
     <link rel="stylesheet" href="styles.css">
     <script src="app.js" defer></script>
 </head>
 <body>
     <main class="app">
         <header class="cabecera">
-            <h1 class="titulo">Caza al Bug <span class="titulo__tag">debug mode</span></h1>
-            <p class="subtitulo">Aplasta los bugs antes de que lleguen a producción.</p>
+            <h1 class="titulo">Caza la Mano</h1>
+            <p class="subtitulo">Atrapa cartas al vuelo y forma la mejor mano de póker.</p>
         </header>
 
         <section class="panel" aria-label="Estado de la partida">
             <div class="panel__dato">
-                <span class="panel__etiqueta">Puntos</span>
+                <span class="panel__etiqueta">Fichas</span>
                 <span class="panel__valor" id="puntos">0</span>
             </div>
             <div class="panel__dato">
                 <span class="panel__etiqueta">Tiempo</span>
-                <span class="panel__valor" id="tiempo">30</span>
+                <span class="panel__valor" id="tiempo">45</span>
             </div>
             <div class="panel__dato">
-                <span class="panel__etiqueta">Combo</span>
-                <span class="panel__valor" id="combo">x1</span>
+                <span class="panel__etiqueta">Racha</span>
+                <span class="panel__valor" id="racha">x1</span>
             </div>
             <div class="panel__dato">
                 <span class="panel__etiqueta">Récord</span>
@@ -34,28 +34,36 @@
             </div>
         </section>
 
-        <section class="tablero" id="tablero" aria-label="Tablero de juego"></section>
+        <section class="tablero" id="tablero" aria-label="Mesa de juego"></section>
+
+        <section class="mano-jugador" aria-label="Tu mano">
+            <div class="mano-jugador__cabecera">
+                <span class="mano-jugador__titulo">Tu mano</span>
+                <span class="mano-jugador__jugada" id="jugada" aria-live="polite"></span>
+            </div>
+            <div class="mano" id="mano"></div>
+        </section>
 
         <div class="controles">
             <label class="selector">
-                <span class="selector__etiqueta">Nivel</span>
+                <span class="selector__etiqueta">Mesa</span>
                 <select class="selector__campo" id="dificultad">
-                    <option value="junior">Junior</option>
-                    <option value="senior" selected>Senior</option>
-                    <option value="diezx">10x</option>
+                    <option value="novato">Novato</option>
+                    <option value="habitual" selected>Habitual</option>
+                    <option value="tiburon">Tiburón</option>
                 </select>
             </label>
-            <button class="boton" id="botonJugar" type="button">Empezar</button>
+            <button class="boton" id="botonJugar" type="button">Repartir</button>
         </div>
 
-        <p class="mensaje" id="mensaje" aria-live="polite">Pulsa «Empezar» para compilar la partida.</p>
+        <p class="mensaje" id="mensaje" aria-live="polite">Pulsa «Repartir» para sentarte a la mesa.</p>
 
-        <ul class="leyenda" aria-label="Leyenda">
-            <li class="leyenda__item"><span class="leyenda__emoji">🐛</span> Bug · +1</li>
-            <li class="leyenda__item"><span class="leyenda__emoji">🪲</span> Crítico · +3, huye rápido</li>
-            <li class="leyenda__item"><span class="leyenda__emoji">✨</span> Feature · ¡no la toques! −2</li>
-        </ul>
-        <p class="nota">Cada 5 aciertos seguidos sube el multiplicador (máx. x3). Golpear una casilla vacía resta 1 y rompe el combo. Usa el ratón o las teclas 1-9.</p>
+        <section class="premios-caja" aria-label="Tabla de premios">
+            <h2 class="premios-caja__titulo">Tabla de premios</h2>
+            <ul class="premios" id="premios"></ul>
+        </section>
+
+        <p class="nota">Atrapa cartas con el ratón o con las teclas 1-9. Cada 5 cartas se cobra tu jugada y cada mano premiada seguida sube el multiplicador (máx. x3). La carta marcada ☠ quema tu mano (−5) y golpear un hueco vacío resta 1.</p>
     </main>
 </body>
 </html>
