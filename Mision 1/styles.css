@@ -1,35 +1,45 @@
 :root {
-    --fondo: #eef1f6;
-    --superficie: #ffffff;
-    --texto: #1d2433;
-    --texto-suave: #5b6478;
-    --acento: #2f6fed;
-    --celda: #dfe5ef;
-    --celda-borde: #c6cfdd;
-    --exito: #1f9d55;
+    --fondo: #f4efe4;
+    --superficie: #fffaf0;
+    --texto: #1f2a24;
+    --texto-suave: #6b6356;
+    --acento: #0e7a4b;
+    --tapete: #16794d;
+    --tapete-sombra: #0c5634;
+    --madera: #6b3f1f;
+    --celda: rgba(0, 0, 0, 0.2);
+    --celda-borde: rgba(255, 255, 255, 0.16);
+    --atajo: rgba(255, 255, 255, 0.6);
+    --hueco-mano: #cfc6b4;
+    --exito: #3ddc84;
     --peligro: #d64545;
-    --dorado: #e0a100;
+    --dorado: #c9971c;
     --carta: #fffdf8;
     --carta-roja: #c62f2f;
     --carta-negra: #1b1b1b;
     --radio: 12px;
-    --sombra: 0 4px 14px rgba(29, 36, 51, 0.08);
+    --sombra: 0 4px 14px rgba(60, 40, 20, 0.12);
+    --fuente-titulo: Georgia, "Times New Roman", serif;
     --fuente-mono: "Cascadia Code", "Consolas", "Courier New", monospace;
 }
 
 /* Bonus: modo noche que se activa escribiendo el código secreto */
 body.modo-noche {
-    --fondo: #0f141d;
-    --superficie: #19202c;
-    --texto: #e3e8f1;
-    --texto-suave: #8d97aa;
-    --acento: #5b9bff;
-    --celda: #212a38;
-    --celda-borde: #313c4e;
-    --exito: #2fbf71;
+    --fondo: #0b0f0d;
+    --superficie: #151c18;
+    --texto: #ece6d6;
+    --texto-suave: #9aa39c;
+    --acento: #1f9c63;
+    --tapete: #0d4a30;
+    --tapete-sombra: #072819;
+    --madera: #3b2412;
+    --celda: rgba(0, 0, 0, 0.35);
+    --celda-borde: rgba(255, 255, 255, 0.1);
+    --hueco-mano: #34403a;
     --peligro: #ff6b6b;
-    --dorado: #ffc53d;
-    --sombra: 0 4px 14px rgba(0, 0, 0, 0.4);
+    --dorado: #f2c14e;
+    --carta: #f3eee2;
+    --sombra: 0 4px 14px rgba(0, 0, 0, 0.5);
 }
 
 *,
@@ -52,10 +62,10 @@ body {
 
 .app {
     width: 100%;
-    max-width: 420px;
+    max-width: 400px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 16px;
 }
 
 /* Cabecera */
@@ -65,7 +75,16 @@ body {
 
 .titulo {
     margin: 0;
-    font-size: 2rem;
+    font-family: var(--fuente-titulo);
+    font-size: 2.2rem;
+    letter-spacing: 0.02em;
+}
+
+.titulo__palos {
+    display: block;
+    font-size: 1rem;
+    letter-spacing: 0.6em;
+    color: var(--dorado);
 }
 
 .subtitulo {
@@ -117,18 +136,23 @@ body {
     color: var(--dorado);
 }
 
-/* Tablero 3x3 */
+/* Tablero 3x3: tapete verde con borde de madera */
 .tablero {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
+    gap: 8px;
+    padding: 14px;
+    border: 8px solid var(--madera);
+    border-radius: 28px;
+    background: radial-gradient(circle at 50% 40%, var(--tapete), var(--tapete-sombra));
+    box-shadow: var(--sombra), inset 0 0 24px rgba(0, 0, 0, 0.35);
 }
 
 .celda {
     position: relative;
     aspect-ratio: 1;
     border: 2px solid var(--celda-borde);
-    border-radius: var(--radio);
+    border-radius: 50%;
     background: var(--celda);
     color: inherit;
     cursor: pointer;
@@ -137,7 +161,7 @@ body {
 }
 
 .celda:hover {
-    border-color: var(--acento);
+    border-color: var(--dorado);
 }
 
 .celda:focus-visible,
@@ -148,7 +172,7 @@ body {
 }
 
 .celda--activa {
-    border-color: var(--acento);
+    border-color: var(--dorado);
 }
 
 .celda--acierto {
@@ -214,6 +238,7 @@ body {
 }
 
 .carta--tablero {
+    width: 50%;
     animation: aparecer 0.15s ease-out;
 }
 
@@ -231,10 +256,11 @@ body {
 .celda__atajo {
     position: absolute;
     top: 6px;
-    left: 8px;
+    left: 50%;
+    translate: -50% 0;
     font-family: var(--fuente-mono);
-    font-size: 0.7rem;
-    color: var(--texto-suave);
+    font-size: 0.65rem;
+    color: var(--atajo);
 }
 
 /* Controles y mensajes */
@@ -260,7 +286,7 @@ body {
 .selector__campo {
     font: inherit;
     padding: 8px 10px;
-    border: 2px solid var(--celda-borde);
+    border: 2px solid var(--hueco-mano);
     border-radius: 8px;
     background: var(--superficie);
     color: var(--texto);
@@ -270,11 +296,16 @@ body {
     font: inherit;
     font-weight: 600;
     padding: 10px 22px;
-    border: none;
+    border: 2px solid var(--dorado);
     border-radius: 999px;
     background: var(--acento);
     color: #fff;
     cursor: pointer;
+    transition: transform 0.1s;
+}
+
+.boton:not(:disabled):active {
+    transform: scale(0.96);
 }
 
 .boton:disabled {
@@ -338,7 +369,7 @@ body {
 
 .mano__hueco {
     aspect-ratio: 5 / 7;
-    border: 2px dashed var(--celda-borde);
+    border: 2px dashed var(--hueco-mano);
     border-radius: 8px;
 }
 
