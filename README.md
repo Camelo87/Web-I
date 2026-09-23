@@ -6,7 +6,7 @@ Prácticas y misiones de la asignatura **Web Development I** (U-tad, 3.º).
 
 | Carpeta | Qué es | Tipo |
 | --- | --- | --- |
-| [Mision 1](Mision%201/) | **Caza al Bug**: whack-a-mole de 3 × 3 en HTML, CSS y JavaScript puro, con tipos de bug, combos, récord y modo oscuro secreto. [Ver README](Mision%201/README.md) | Misión M1 · El Despertar del DOM (entrega) |
+| [Mision 1](Mision%201/) | **Caza la Mano**: whack-a-mole de 3 × 3 con póker en HTML, CSS y JavaScript puro. Atrapas cartas de una baraja real para formar manos, con tabla de premios, rachas, récord y modo noche secreto. [Ver README](Mision%201/README.md) | Misión M1 · El Despertar del DOM (entrega) |
 | [Tema1/Oraculo](Tema1/Oraculo/) | El oráculo de los números: adivinar un número del 1 al 100 en 7 intentos. | Ejercicio de clase del Tema 1 |
 
 ## Cómo abrir los proyectos
