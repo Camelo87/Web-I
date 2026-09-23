@@ -106,6 +106,26 @@ body {
     place-items: center;
 }
 
+.celda--activa {
+    border-color: var(--acento);
+}
+
+.celda__bicho {
+    display: inline-block;
+    animation: aparecer 0.15s ease-out;
+}
+
+@keyframes aparecer {
+    from {
+        transform: scale(0.3) translateY(40%);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+}
+
 .celda__atajo {
     position: absolute;
     top: 6px;
