@@ -1,0 +1,147 @@
+:root {
+    --fondo: #eef1f6;
+    --superficie: #ffffff;
+    --texto: #1d2433;
+    --texto-suave: #5b6478;
+    --acento: #2f6fed;
+    --celda: #dfe5ef;
+    --celda-borde: #c6cfdd;
+    --radio: 12px;
+    --sombra: 0 4px 14px rgba(29, 36, 51, 0.08);
+    --fuente-mono: "Cascadia Code", "Consolas", "Courier New", monospace;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--fondo);
+    color: var(--texto);
+    display: flex;
+    justify-content: center;
+    padding: 24px 16px;
+}
+
+.app {
+    width: 100%;
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Cabecera */
+.cabecera {
+    text-align: center;
+}
+
+.titulo {
+    margin: 0;
+    font-size: 2rem;
+}
+
+.titulo__tag {
+    font-family: var(--fuente-mono);
+    font-size: 0.8rem;
+    color: var(--acento);
+    vertical-align: middle;
+}
+
+.subtitulo {
+    margin: 6px 0 0;
+    color: var(--texto-suave);
+}
+
+/* Panel de estado */
+.panel {
+    display: flex;
+    justify-content: space-around;
+    background: var(--superficie);
+    border-radius: var(--radio);
+    box-shadow: var(--sombra);
+    padding: 12px;
+}
+
+.panel__dato {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.panel__etiqueta {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--texto-suave);
+}
+
+.panel__valor {
+    font-family: var(--fuente-mono);
+    font-size: 1.6rem;
+    font-weight: 700;
+}
+
+/* Tablero 3x3 */
+.tablero {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.celda {
+    position: relative;
+    aspect-ratio: 1;
+    border: 2px solid var(--celda-borde);
+    border-radius: var(--radio);
+    background: var(--celda);
+    font-size: 2.6rem;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+}
+
+.celda__atajo {
+    position: absolute;
+    top: 6px;
+    left: 8px;
+    font-family: var(--fuente-mono);
+    font-size: 0.7rem;
+    color: var(--texto-suave);
+}
+
+/* Controles y mensajes */
+.controles {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.boton {
+    font: inherit;
+    font-weight: 600;
+    padding: 10px 22px;
+    border: none;
+    border-radius: 999px;
+    background: var(--acento);
+    color: #fff;
+    cursor: pointer;
+}
+
+.boton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.mensaje {
+    margin: 0;
+    min-height: 1.5em;
+    text-align: center;
+    font-family: var(--fuente-mono);
+    color: var(--texto-suave);
+}

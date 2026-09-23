@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caza al Bug · Debug Mode</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="app.js" defer></script>
+</head>
+<body>
+    <main class="app">
+        <header class="cabecera">
+            <h1 class="titulo">Caza al Bug <span class="titulo__tag">debug mode</span></h1>
+            <p class="subtitulo">Aplasta los bugs antes de que lleguen a producción.</p>
+        </header>
+
+        <section class="panel" aria-label="Estado de la partida">
+            <div class="panel__dato">
+                <span class="panel__etiqueta">Puntos</span>
+                <span class="panel__valor" id="puntos">0</span>
+            </div>
+            <div class="panel__dato">
+                <span class="panel__etiqueta">Tiempo</span>
+                <span class="panel__valor" id="tiempo">30</span>
+            </div>
+        </section>
+
+        <section class="tablero" id="tablero" aria-label="Tablero de juego"></section>
+
+        <div class="controles">
+            <button class="boton" id="botonJugar" type="button">Empezar</button>
+        </div>
+
+        <p class="mensaje" id="mensaje" aria-live="polite">Pulsa «Empezar» para compilar la partida.</p>
+    </main>
+</body>
+</html>
