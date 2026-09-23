@@ -12,16 +12,19 @@ const DIFICULTADES = {
     diezx: { nombre: '10x', duracionMs: 600, pausaMs: 150 }
 };
 
-// Tipos de criatura: "probabilidad" es su peso al sortear y "factorTiempo" acorta o alarga su aparición
+// Tipos de criatura: "probabilidad" es su peso al sortear, "factorTiempo" acorta o alarga su aparición
+// y "esTrampa" marca las que no hay que golpear (sus puntos se restan)
 const CRIATURAS = [
-    { tipo: 'bug', emoji: '🐛', puntos: 1, probabilidad: 0.7, factorTiempo: 1, texto: '¡Bug aplastado!' },
-    { tipo: 'critico', emoji: '🪲', puntos: 3, probabilidad: 0.12, factorTiempo: 0.7, texto: '¡Bug crítico en producción, eliminado!' },
-    { tipo: 'feature', emoji: '✨', puntos: -2, probabilidad: 0.18, factorTiempo: 1.2, texto: '¡Eso era una feature! El cliente no está contento.' }
+    { tipo: 'bug', emoji: '🐛', puntos: 1, esTrampa: false, probabilidad: 0.7, factorTiempo: 1, texto: '¡Bug aplastado!' },
+    { tipo: 'critico', emoji: '🪲', puntos: 3, esTrampa: false, probabilidad: 0.12, factorTiempo: 0.7, texto: '¡Bug crítico en producción, eliminado!' },
+    { tipo: 'feature', emoji: '✨', puntos: 2, esTrampa: true, probabilidad: 0.18, factorTiempo: 1.2, texto: '¡Eso era una feature! El cliente no está contento.' }
 ];
 
 // El multiplicador sube con cada racha de aciertos seguidos
 const COMBO_POR_NIVEL = 5;
 const MULTIPLICADOR_MAXIMO = 3;
+const PENALIZACION_FALLO = 1;
+const CLASES_DESTELLO = ['celda--acierto', 'celda--fallo'];
 
 const tablero = document.querySelector('#tablero');
 const textoPuntos = document.querySelector('#puntos');
@@ -38,7 +41,7 @@ const estado = {
     puntos: 0,
     racha: 0,
     segundosRestantes: DURACION_PARTIDA_S,
-    dificultad: DIFICULTADES.senior,
+    claveDificultad: 'senior',
     celdaActiva: null,
     ultimaCelda: null,
     criaturaActiva: null,
@@ -74,8 +77,7 @@ function obtenerRecord(claveDificultad) {
 
 /* ---------- Modo oscuro secreto ---------- */
 
-function aplicarModoOscuro(activo) {
-    document.body.classList.toggle('modo-oscuro', activo);
+function guardarModoOscuro(activo) {
     try {
         localStorage.setItem(CLAVE_TEMA, String(activo));
     } catch {
@@ -97,8 +99,8 @@ function comprobarCodigoSecreto(tecla) {
 
     if (teclasRecientes === CODIGO_SECRETO) {
         teclasRecientes = '';
-        const activo = !document.body.classList.contains('modo-oscuro');
-        aplicarModoOscuro(activo);
+        const activo = document.body.classList.toggle('modo-oscuro');
+        guardarModoOscuro(activo);
         mensaje.textContent = activo ? '🌙 Modo debug nocturno activado.' : '☀️ Vuelta al modo diurno.';
     }
 }
@@ -113,7 +115,6 @@ function crearTablero() {
         const celda = document.createElement('button');
         celda.type = 'button';
         celda.className = 'celda';
-        celda.dataset.indice = i;
         celda.setAttribute('aria-label', `Agujero ${i + 1}`);
 
         const atajo = document.createElement('span');
@@ -161,7 +162,7 @@ function mostrarCriatura() {
     estado.ultimaCelda = celda;
     estado.criaturaActiva = criatura;
 
-    const duracion = estado.dificultad.duracionMs * criatura.factorTiempo;
+    const duracion = dificultadActual().duracionMs * criatura.factorTiempo;
     estado.temporizadorBug = setTimeout(escaparCriatura, duracion);
 }
 
@@ -176,21 +177,23 @@ function ocultarCriatura() {
     estado.criaturaActiva = null;
 
     if (estado.jugando) {
-        estado.temporizadorBug = setTimeout(mostrarCriatura, estado.dificultad.pausaMs);
+        estado.temporizadorBug = setTimeout(mostrarCriatura, dificultadActual().pausaMs);
     }
 }
 
 // Si un bug se escapa se rompe la racha; si lo que se va es una feature, no pasa nada
 function escaparCriatura() {
-    if (estado.criaturaActiva?.puntos > 0) {
-        estado.racha = 0;
-        actualizarCombo();
-        mensaje.textContent = 'Un bug se ha colado en producción...';
+    if (estado.criaturaActiva && !estado.criaturaActiva.esTrampa) {
+        romperRacha('Un bug se ha colado en producción...');
     }
     ocultarCriatura();
 }
 
 /* ---------- Marcadores ---------- */
+
+function dificultadActual() {
+    return DIFICULTADES[estado.claveDificultad];
+}
 
 function calcularMultiplicador() {
     return Math.min(1 + Math.floor(estado.racha / COMBO_POR_NIVEL), MULTIPLICADOR_MAXIMO);
@@ -211,17 +214,27 @@ function actualizarCombo() {
     textoCombo.classList.toggle('panel__valor--combo', multiplicador > 1);
 }
 
-function actualizarRecord() {
-    textoRecord.textContent = obtenerRecord(selectorDificultad.value);
+function actualizarRecord(claveDificultad) {
+    textoRecord.textContent = obtenerRecord(claveDificultad);
 }
 
 /* ---------- Jugabilidad ---------- */
 
-// Marca visualmente una celda durante un instante (acierto o fallo)
+// Marca visualmente una celda; la clase se retira sola al acabar la animación (listener animationend)
 function destellar(celda, clase) {
-    celda.classList.remove(clase);
-    void celda.offsetWidth; // fuerza un reflow para poder repetir la animación
+    celda.classList.remove(...CLASES_DESTELLO);
     celda.classList.add(clase);
+}
+
+function cambiarPuntos(cantidad) {
+    estado.puntos = Math.max(0, estado.puntos + cantidad);
+    actualizarPuntos();
+}
+
+function romperRacha(texto) {
+    estado.racha = 0;
+    actualizarCombo();
+    mensaje.textContent = texto;
 }
 
 function golpear(celda) {
@@ -229,27 +242,27 @@ function golpear(celda) {
 
     const criatura = estado.criaturaActiva;
 
+    // Golpear a ciegas también cuesta: así aporrear todas las casillas deja de ser la mejor estrategia
     if (celda !== estado.celdaActiva || !criatura) {
         destellar(celda, 'celda--fallo');
-        mensaje.textContent = 'Ahí no había nada... 404.';
+        cambiarPuntos(-PENALIZACION_FALLO);
+        romperRacha(`Ahí no había nada... 404. (−${PENALIZACION_FALLO})`);
         return;
     }
 
-    if (criatura.puntos < 0) {
-        estado.racha = 0;
-        estado.puntos = Math.max(0, estado.puntos + criatura.puntos);
+    if (criatura.esTrampa) {
         destellar(celda, 'celda--fallo');
-        mensaje.textContent = `${criatura.texto} (${criatura.puntos})`;
+        cambiarPuntos(-criatura.puntos);
+        romperRacha(`${criatura.texto} (−${criatura.puntos})`);
     } else {
         estado.racha++;
         const ganados = criatura.puntos * calcularMultiplicador();
-        estado.puntos += ganados;
         destellar(celda, 'celda--acierto');
+        cambiarPuntos(ganados);
+        actualizarCombo();
         mensaje.textContent = `${criatura.texto} (+${ganados})`;
     }
 
-    actualizarPuntos();
-    actualizarCombo();
     ocultarCriatura();
 }
 
@@ -265,7 +278,7 @@ function empezarPartida() {
     estado.puntos = 0;
     estado.racha = 0;
     estado.segundosRestantes = DURACION_PARTIDA_S;
-    estado.dificultad = DIFICULTADES[selectorDificultad.value];
+    estado.claveDificultad = selectorDificultad.value;
     estado.ultimaCelda = null;
     actualizarPuntos();
     actualizarTiempo();
@@ -273,7 +286,7 @@ function empezarPartida() {
 
     botonJugar.disabled = true;
     selectorDificultad.disabled = true;
-    mensaje.textContent = `Sprint ${estado.dificultad.nombre} en marcha. ¡No toques las features!`;
+    mensaje.textContent = `Sprint ${dificultadActual().nombre} en marcha. ¡No toques las features!`;
     estado.intervaloReloj = setInterval(descontarSegundo, 1000);
     mostrarCriatura();
 }
@@ -284,20 +297,38 @@ function terminarPartida() {
     ocultarCriatura();
     actualizarTiempo();
 
-    const claveDificultad = selectorDificultad.value;
-    const esRecord = estado.puntos > obtenerRecord(claveDificultad);
-    if (esRecord) guardarRecord(claveDificultad, estado.puntos);
-    actualizarRecord();
+    const { claveDificultad, puntos } = estado;
+    const esRecord = puntos > obtenerRecord(claveDificultad);
+    if (esRecord) guardarRecord(claveDificultad, puntos);
+    actualizarRecord(claveDificultad);
 
     botonJugar.disabled = false;
     selectorDificultad.disabled = false;
     botonJugar.textContent = 'Otra partida';
     mensaje.textContent = esRecord
-        ? `¡Nuevo récord en ${estado.dificultad.nombre}: ${estado.puntos} puntos!`
-        : `Fin del sprint: ${estado.puntos} puntos.`;
+        ? `¡Nuevo récord en ${dificultadActual().nombre}: ${puntos} puntos!`
+        : `Fin del sprint: ${puntos} puntos.`;
 }
 
 /* ---------- Eventos ---------- */
+
+// Ignora repeticiones al mantener pulsado y combinaciones con modificadores (Ctrl+D, etc.)
+function esTeclaSimple(evento) {
+    return !evento.repeat && !evento.ctrlKey && !evento.metaKey && !evento.altKey;
+}
+
+// Teclas 1-9: golpean la celda con ese número
+function manejarTeclaDeJuego(evento) {
+    const numero = Number(evento.key);
+    if (Number.isInteger(numero) && numero >= 1 && numero <= TOTAL_CELDAS) {
+        golpear(celdas[numero - 1]);
+    }
+}
+
+// Letras: alimentan el código secreto del modo oscuro
+function manejarTeclaSecreta(evento) {
+    if (/^[a-z]$/i.test(evento.key)) comprobarCodigoSecreto(evento.key);
+}
 
 // Un único listener en el tablero (delegación) en lugar de uno por celda
 tablero.addEventListener('click', (evento) => {
@@ -305,22 +336,22 @@ tablero.addEventListener('click', (evento) => {
     if (celda) golpear(celda);
 });
 
-// Teclado: 1-9 golpean la celda correspondiente y cualquier letra alimenta el código secreto
-document.addEventListener('keydown', (evento) => {
-    if (evento.repeat || evento.ctrlKey || evento.metaKey || evento.altKey) return;
-
-    const numero = Number(evento.key);
-    if (Number.isInteger(numero) && numero >= 1 && numero <= TOTAL_CELDAS) {
-        golpear(celdas[numero - 1]);
-        return;
+// También delegado: al acabar el destello se retira la clase para que la siguiente animación arranque limpia
+tablero.addEventListener('animationend', (evento) => {
+    if (evento.target.classList.contains('celda')) {
+        evento.target.classList.remove(...CLASES_DESTELLO);
     }
+});
 
-    if (evento.key.length === 1) comprobarCodigoSecreto(evento.key);
+document.addEventListener('keydown', (evento) => {
+    if (!esTeclaSimple(evento)) return;
+    manejarTeclaDeJuego(evento);
+    manejarTeclaSecreta(evento);
 });
 
 botonJugar.addEventListener('click', empezarPartida);
-selectorDificultad.addEventListener('change', actualizarRecord);
+selectorDificultad.addEventListener('change', () => actualizarRecord(selectorDificultad.value));
 
 crearTablero();
-actualizarRecord();
-aplicarModoOscuro(cargarModoOscuro());
+actualizarRecord(estado.claveDificultad);
+document.body.classList.toggle('modo-oscuro', cargarModoOscuro());
