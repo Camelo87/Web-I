@@ -8,12 +8,12 @@
   <body>
     <main>
       <h1>🍳 La Despensa</h1>
-      <p class="sub">Busca una receta y descubre cuántos ingredientes necesitas de verdad.</p>
+      <p class="sub">Todas las recetas, filtradas mientras escribes. Descubre cuántos ingredientes necesitas de verdad.</p>
 
       <form id="form">
-        <input id="busqueda" placeholder="chicken, pasta, cake…" autocomplete="off" />
-        <button type="button" id="atras" disabled>← Atrás</button>
-        <button>Buscar</button>
+        <input id="busqueda" list="sugerencias" placeholder="Escribe un plato: Pie, Chicken, Soup…" autocomplete="off" />
+        <datalist id="sugerencias"></datalist>
+        <button type="button" id="inicio">← Inicio</button>
       </form>
 
       <label class="opcion">
