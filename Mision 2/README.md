@@ -1,9 +1,10 @@
 # La Despensa 🍳 (Async Odyssey)
 
 Buscador de recetas que consume la API pública
-[TheMealDB](https://www.themealdb.com/api.php). Escribes un plato (en inglés:
-`chicken`, `pasta`, `cake`…) y te muestra las recetas ordenadas por **cuántos
-ingredientes necesitas**, de menos a más, para encontrar la más sencilla.
+[TheMealDB](https://www.themealdb.com/api.php). Al abrir muestra **todas** las
+recetas (las 26 letras del abecedario pedidas a la vez con `Promise.all`),
+ordenadas por **cuántos ingredientes necesitas**, de menos a más. Mientras
+escribes se filtran y el navegador te sugiere nombres de platos.
 
 ## Cómo probarlo
 ```
@@ -14,17 +15,18 @@ npm run build    # versión de producción en /dist
 ```
 
 ## Qué hace
+- Botón «← Inicio» para limpiar la búsqueda y volver al menú completo.
 - Estados visibles: **cargando**, **error** (red caída o HTTP no válido),
   **vacío** (sin resultados) y **datos**.
 - Casilla «8 ingredientes o menos» para filtrar las recetas rápidas.
 - Resumen con el número de recetas por categoría.
-- **Bonus:** caché en `localStorage`: una búsqueda ya hecha no repite la
-  petición.
+- **Bonus:** caché en `localStorage`: la lista completa se guarda y las
+  siguientes visitas no repiten las 26 peticiones.
 
 ## Estructura
 | Fichero | Responsabilidad |
 | --- | --- |
-| `src/api.js` | `fetch` + `async/await`, comprobación de `response.ok` y caché |
+| `src/api.js` | `fetch` + `async/await` + `Promise.all`, comprobación de `response.ok` y caché |
 | `src/logica.js` | Transformar datos con `map`, `filter`, `reduce` y `toSorted` |
 | `src/render.js` | Pintar en el DOM (no sabe nada de la red) |
 | `src/main.js` | Une los módulos y gestiona los eventos |
