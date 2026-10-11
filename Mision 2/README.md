@@ -61,7 +61,12 @@ navegador automatizado (Playwright): carga inicial, filtro al escribir,
 categorías, botón Inicio y estado de error con la red cortada.
 
 ## Autopsia
-Los ingredientes de TheMealDB vienen como 20 campos sueltos
-(`strIngredient1` … `strIngredient20`), muchos vacíos. En vez de un bucle con
-condiciones, uso `Array.from({ length: 20 })` + `filter(Boolean)` para
-obtener un array limpio, y de ahí salen el conteo, el filtro y la ordenación.
+Lo más difícil fue que la página tuviera **todas** las recetas al abrirse.
+La API no me deja pedirlas todas de golpe: solo me da las que empiezan por
+una letra. Así que hago 26 peticiones a la vez, una por letra, y las junto en
+una sola lista. Para no hacer esas 26 peticiones cada vez que entras, guardo
+la lista en el navegador y la próxima vez carga al instante.
+
+Otro problema: cada receta traía los ingredientes en 20 casillas sueltas,
+casi todas vacías. Las junto en una lista limpia y, a partir de ahí, contar
+ingredientes, filtrar y ordenar es muy fácil.
