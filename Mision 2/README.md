@@ -45,11 +45,20 @@ Prompts reales:
 - "Necesito que me realices la misión 2 de web 1 [...] recuerda ir haciendo
   commits y hacer el programa de la forma más sencilla posible pero
   cumpliendo todo sin mucho código", junto con el enunciado y la rúbrica.
+- "En el menú principal solo aparece chicken, podrías añadir un botón para
+  volver atrás [...] asegúrate de no añadir mucho código".
+- "Quiero que en el menú principal aparezcan todos los platos y luego con la
+  búsqueda ir filtrando, quiero también que al buscar te vaya recomendando
+  lo que escribir".
+- "Añadir a la izquierda los filtros de los tipos de comida, como pasta,
+  vegetarian, chicken...".
 
 Cómo lo verifiqué: comprobé que la API devuelve datos reales, que la lógica
 transforma bien las 25 recetas de «chicken» (ingredientes limpios, conteo por
 categoría) y que una búsqueda sin resultados (`meals: null`) no rompe nada.
-Además, `npm run build` compila sin errores.
+Además, `npm run build` compila sin errores y probé la interfaz en un
+navegador automatizado (Playwright): carga inicial, filtro al escribir,
+categorías, botón Inicio y estado de error con la red cortada.
 
 ## Autopsia
 Los ingredientes de TheMealDB vienen como 20 campos sueltos
