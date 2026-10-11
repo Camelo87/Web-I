@@ -1,0 +1,17 @@
+body { font-family: system-ui, sans-serif; background: #fff8ee; color: #3b2a1a; margin: 0; }
+main { max-width: 900px; margin: 0 auto; padding: 24px 16px; }
+h1 { margin-bottom: 0; }
+.sub { margin-top: 4px; color: #7a5f45; }
+form { display: flex; gap: 8px; }
+input[type="text"], #busqueda { flex: 1; padding: 10px; border: 2px solid #e0b88a; border-radius: 8px; font-size: 1rem; }
+button { padding: 10px 18px; background: #d9531e; color: #fff; border: 0; border-radius: 8px; font-size: 1rem; cursor: pointer; }
+.opcion { display: block; margin: 12px 0; }
+#resumen { font-size: .9rem; color: #7a5f45; }
+#salida { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+.tarjeta { background: #fff; border-radius: 12px; padding: 12px; box-shadow: 0 2px 6px #0002; }
+.tarjeta img { width: 100%; border-radius: 8px; }
+.tarjeta h2 { font-size: 1.05rem; margin: 8px 0 4px; }
+.tarjeta p { margin: 2px 0; font-size: .9rem; }
+.num { font-weight: bold; color: #d9531e; }
+.estado { grid-column: 1 / -1; text-align: center; padding: 32px; }
+.error { color: #c00; }
