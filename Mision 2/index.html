@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>La Despensa · Async Odyssey</title>
+  </head>
+  <body>
+    <main>
+      <h1>🍳 La Despensa</h1>
+      <p class="sub">Busca una receta y descubre cuántos ingredientes necesitas de verdad.</p>
+
+      <form id="form">
+        <input id="busqueda" placeholder="chicken, pasta, cake…" autocomplete="off" />
+        <button>Buscar</button>
+      </form>
+
+      <label class="opcion">
+        <input type="checkbox" id="rapidas" /> Solo recetas con 8 ingredientes o menos
+      </label>
+
+      <p id="resumen"></p>
+      <div id="salida"></div>
+    </main>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
