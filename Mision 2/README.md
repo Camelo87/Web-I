@@ -15,6 +15,7 @@ npm run build    # versión de producción en /dist
 ```
 
 ## Qué hace
+- Filtros por categoría a la izquierda (Chicken, Pasta, Vegetarian…) con el número de recetas.
 - Botón «← Inicio» para limpiar la búsqueda y volver al menú completo.
 - Estados visibles: **cargando**, **error** (red caída o HTTP no válido),
   **vacío** (sin resultados) y **datos**.
