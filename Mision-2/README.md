@@ -8,7 +8,7 @@ escribes se filtran y el navegador te sugiere nombres de platos.
 
 ## Cómo probarlo
 ```
-cd "Mision 2"
+cd Mision-2
 npm install
 npm run dev      # http://localhost:5173
 npm run build    # versión de producción en /dist

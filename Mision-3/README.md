@@ -7,7 +7,7 @@ compra**: eliges recetas y ves todos sus ingredientes juntos, sin repetir.
 
 ## Cómo probarlo
 ```
-cd "Mision 3"
+cd Mision-3
 npm install
 npm run dev      # http://localhost:5173
 npm run lint     # ESLint con las reglas de los hooks de React
