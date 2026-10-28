@@ -71,10 +71,47 @@ dos hooks propios en `hooks/`.
 - React escapa los textos solo: ya no hace falta la función `esc` ni construir HTML con cadenas.
 
 ## Uso de IA
-<!-- ESCRÍBELO TÚ (lo pide la guía). Responde a estas tres preguntas: -->
-<!-- 1. Qué le pediste a la IA (pon 1-2 prompts reales tuyos). -->
-<!-- 2. Cómo lo verificaste (qué probaste tú en el navegador, npm run lint, npm run build...). -->
-<!-- 3. Qué escribiste o cambiaste a mano. -->
+Usé Claude Code (extensión de VS Code) para pasar la Despensa de la Misión 2
+a React, con un commit por fase. También redactó este README, incluidas
+estas dos secciones.
+
+Prompts reales:
+- "Vamos a hacer la mision 3, creo que tienes que pasar la mision 2 a react",
+  junto con el enunciado y la rúbrica de la misión.
+- "Acuérdate de hacerlo de una forma sencilla pero cumpliendo todo, también te
+  voy a pasar las correcciones de mis otras misiones", con el feedback de la
+  Arena de la M1 y la M2 para aplicar sus puntos de mejora.
+
+Qué decidí yo: rehacer la M2 en vez de empezar otra app, que fuera sencilla
+y que se arreglara lo que me marcaron en la corrección de la M2
+(`Promise.allSettled`, caché validada, botón Reintentar...).
+
+Cómo lo verifiqué:
+- `npm run lint` (incluye las reglas de los hooks de React, que avisan de
+  dependencias mal puestas) y `npm run build` sin errores.
+- En el navegador: carga de las 790 recetas, filtro al escribir, categoría +
+  casilla de rápidas, botón Inicio, búsqueda sin resultados («zzzz»), añadir y
+  quitar recetas de la compra y que la lista sigue ahí al recargar.
+- La función `cargarTodas` probada a mano desde la consola: con la red caída
+  lanza el error; con una letra devolviendo HTTP 500 enseña las otras 699
+  recetas, avisa de 1 letra fallida y no guarda la caché incompleta; al
+  cancelar con `AbortController` da `AbortError`; y con basura en la caché la
+  ignora y vuelve a pedir.
 
 ## Autopsia
-<!-- ESCRÍBELO TÚ: las 2 decisiones más discutibles y la alternativa que descartaste en cada una. -->
+**1. La compra guarda solo los ids de las recetas.** Las recetas elegidas y
+la lista de ingredientes se calculan en cada render a partir de esos ids.
+Descarté guardar en el estado las recetas enteras o la lista de ingredientes
+ya juntada: sería el mismo dato guardado dos veces y habría que mantenerlo
+sincronizado a mano al añadir o quitar. Lo discutible es que se recalcula en
+cada render (con unas pocas recetas no se nota) y que, si una receta
+desaparece de la API, su id se queda en `localStorage` aunque ya no se vea.
+
+**2. La carga de la API va en un hook propio con `useEffect`.** `useRecetas`
+pide los datos en un efecto y lo limpia con `AbortController`, y el
+«cargando» del reintento se pone en el manejador del botón, no dentro del
+efecto. Descarté `use()` con `<Suspense>` de React 19: necesita una promesa
+cacheada fuera del componente y reintentar es más complicado. Lo discutible
+es que la documentación de React recomienda no pedir datos en efectos y usar
+una librería (como TanStack Query, que se ve en la U4). Para esta misión, el
+efecto con su limpieza es lo más sencillo y deja ver cómo funciona por dentro.
