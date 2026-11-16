@@ -47,3 +47,10 @@ button.quitar { background: none; color: #c00; padding: 6px 10px; }
 @media (max-width: 640px) {
   .fila { grid-template-columns: 1fr 1fr auto; }
 }
+
+/* Extras: vista previa y borrar */
+.vista-previa { border: 2px dashed #e0b88a; border-radius: 12px; padding: 10px 14px; margin: 4px 0 16px; background: #fffaf3; }
+.vista-previa h3 { margin: 0 0 4px; }
+.vista-previa p { margin: 2px 0; font-size: .9rem; }
+.vista-previa__titulo { text-transform: uppercase; letter-spacing: .06em; font-size: .75rem !important; color: #7a5f45; }
+button.borrar { margin-top: 10px; }

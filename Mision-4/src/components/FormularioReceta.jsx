@@ -5,6 +5,7 @@ import { useCrearReceta } from "../hooks/useRecetas.js";
 import { propsCampo } from "../accesibilidad.js";
 import Campo, { MensajeError } from "./Campo.jsx";
 import CampoIngredientes from "./CampoIngredientes.jsx";
+import VistaPrevia from "./VistaPrevia.jsx";
 
 const RECETA_VACIA = {
   nombre: "",
@@ -94,6 +95,8 @@ export default function FormularioReceta() {
       <Campo id="pasos" etiqueta="Preparación" error={errors.pasos}>
         <textarea rows={5} {...register("pasos")} {...propsCampo("pasos", errors.pasos)} />
       </Campo>
+
+      <VistaPrevia control={control} />
 
       <div className="envio">
         {/* Deshabilitado solo mientras se envía, para evitar dobles envíos */}

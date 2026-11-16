@@ -9,6 +9,7 @@
     "web": "vite",
     "build": "vite build",
     "lint": "eslint .",
+    "reiniciar-db": "node preparar-db.js --reiniciar",
     "preview": "vite preview"
   },
   "dependencies": {

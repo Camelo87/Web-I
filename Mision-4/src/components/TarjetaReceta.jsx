@@ -1,8 +1,10 @@
 import { CATEGORIAS, DIFICULTADES } from "../esquemas.js";
+import { useBorrarReceta } from "../hooks/useRecetas.js";
 
-// Una receta publicada.
+// Una receta publicada, con su botón para borrarla.
 export default function TarjetaReceta({ receta }) {
-  const { nombre, autor, categoria, dificultad, raciones, minutos, vegetariana, ingredientes, pasos, creadaEn } = receta;
+  const borrar = useBorrarReceta();
+  const { id, nombre, autor, categoria, dificultad, raciones, minutos, vegetariana, ingredientes, pasos, creadaEn } = receta;
 
   return (
     <article className="tarjeta">
@@ -28,6 +30,19 @@ export default function TarjetaReceta({ receta }) {
         <summary>Preparación</summary>
         <p>{pasos}</p>
       </details>
+      <button
+        type="button"
+        className="secundario borrar"
+        disabled={borrar.isPending}
+        onClick={() => window.confirm(`¿Borrar «${nombre}»? No se puede deshacer.`) && borrar.mutate(id)}
+      >
+        {borrar.isPending ? "Borrando…" : "Borrar"}
+      </button>
+      {borrar.isError && (
+        <p className="error" role="alert">
+          ⚠ No se pudo borrar: {borrar.error.message}
+        </p>
+      )}
     </article>
   );
 }
