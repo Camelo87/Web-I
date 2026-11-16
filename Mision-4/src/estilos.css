@@ -54,3 +54,4 @@ button.quitar { background: none; color: #c00; padding: 6px 10px; }
 .vista-previa p { margin: 2px 0; font-size: .9rem; }
 .vista-previa__titulo { text-transform: uppercase; letter-spacing: .06em; font-size: .75rem !important; color: #7a5f45; }
 button.borrar { margin-top: 10px; }
+.rejilla--anterior { opacity: .5; transition: opacity .2s; }

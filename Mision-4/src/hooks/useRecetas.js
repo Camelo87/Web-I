@@ -1,5 +1,5 @@
 // Todo lo que toca el estado del servidor pasa por aquí: los componentes no llaman a fetch.
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { borrarReceta, crearReceta, obtenerRecetas } from "../api.js";
 
 // Claves de la caché: todas empiezan por "recetas", así invalidar ["recetas"] refresca todas las listas.
@@ -13,6 +13,9 @@ export function useRecetas(categoria) {
   return useQuery({
     queryKey: clavesRecetas.lista(categoria),
     queryFn: ({ signal }) => obtenerRecetas(categoria, signal),
+    // Al cambiar de categoría, la lista anterior sigue a la vista hasta que llega la nueva
+    // (en vez de vaciarse y enseñar «Cargando…» cada vez).
+    placeholderData: keepPreviousData,
   });
 }
 

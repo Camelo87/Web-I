@@ -7,7 +7,7 @@ import AvisoDescartadas from "./AvisoDescartadas.jsx";
 // Listado de la comunidad con filtro por categoría y los cuatro estados: cargando, error, vacío y datos.
 export default function ListaRecetas() {
   const [categoria, setCategoria] = useState("");
-  const { data, isPending, isError, error, refetch, isFetching } = useRecetas(categoria);
+  const { data, isPending, isError, error, refetch, isFetching, isPlaceholderData } = useRecetas(categoria);
 
   return (
     <section className="listado" aria-labelledby="titulo-listado">
@@ -47,7 +47,8 @@ export default function ListaRecetas() {
           {data.recetas.length === 0 ? (
             <p className="estado">Aún no hay recetas en esta categoría. ¡Publica la primera!</p>
           ) : (
-            <div className="rejilla">
+            // Atenuada mientras se ven los datos de la categoría anterior
+            <div className={isPlaceholderData ? "rejilla rejilla--anterior" : "rejilla"} aria-busy={isPlaceholderData}>
               {data.recetas.map((receta) => (
                 <TarjetaReceta key={receta.id} receta={receta} />
               ))}

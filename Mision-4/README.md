@@ -28,7 +28,8 @@ La primera vez, `npm run dev` crea `db.json` a partir de `db.inicial.json`. `db.
   mensajes con `role="alert"`, radios e ingredientes en `<fieldset>` + `<legend>`, y al enviar con errores
   el foco va al primer campo mal (lo hace `handleSubmit`).
 - **Listado** con filtro por categoría y los estados de cargando, error con **Reintentar**, vacío y datos.
-  «Actualizando…» cuando refresca en segundo plano.
+  «Actualizando…» cuando refresca en segundo plano. Al cambiar de categoría, la lista anterior se queda
+  atenuada hasta que llega la nueva, en vez de vaciarse.
 - **Publicar y borrar** con `useMutation`: el botón pasa a «Publicando…» y se bloquea para evitar dobles
   envíos, el éxito se anuncia con `role="status"` y el error con `role="alert"`. Tras publicar, el formulario
   se vacía (`reset`); si falla, conserva lo escrito.
@@ -55,6 +56,9 @@ La primera vez, `npm run dev` crea `db.json` a partir de `db.inicial.json`. `db.
 - **Claves de la caché**: `["recetas", "lista", categoria]`. Cada filtro tiene su propia entrada (cambiar de
   categoría y volver no repite la petición durante 30 s de `staleTime`) y todas empiezan por `["recetas"]`,
   así que invalidar `["recetas"]` tras publicar o borrar refresca todas las listas a la vez.
+- `placeholderData: keepPreviousData` en `useRecetas`: al cambiar de categoría por primera vez no se vacía
+  la lista ni sale «Cargando…»; se ven los datos anteriores atenuados (`isPlaceholderData`) hasta que llegan
+  los nuevos. Si la categoría ya está en caché, sale al instante.
 - `onSuccess` **devuelve** la promesa de `invalidateQueries`: la mutación sigue «pendiente» hasta que la lista
   ya trae la receta nueva, y el mensaje de éxito no aparece antes que la tarjeta.
 - `mode: "onTouched"`: no se marca nada en rojo mientras escribes un campo por primera vez; se valida al salir
@@ -68,6 +72,11 @@ Prompts reales:
 - "Vamos con la mision 4", junto con el enunciado y la rúbrica de la misión.
 - De las opciones que me propuso, elegí el dominio («La Despensa: publica tu receta», para seguir la historia
   de la M2 y la M3) y json-server como API, en lugar de un API simulado en el navegador.
+- "Qué cosas se podrían mejorar o cambiar": me propuso 8 mejoras (importar recetas de TheMealDB, borrado
+  optimista, un resumen de errores, borrador guardado…) y le pedí solo una: "haz el 2", que la lista no se
+  vacíe al cambiar de categoría (`keepPreviousData`). Las demás las dejé fuera por el plazo de entrega.
+
+Qué decidí yo: el dominio, usar json-server y qué mejora aplicar de las propuestas.
 
 Cómo lo verifiqué:
 - `npm run lint` y `npm run build` sin errores.
@@ -77,7 +86,9 @@ Cómo lo verifiqué:
 - En el navegador: envío vacío (foco en el primer campo y cada error unido a su campo con `aria-describedby`),
   los tres refinamientos, publicación con «Publicando…», la lista refrescada sola y el formulario vaciado,
   mínimo de 2 ingredientes, vista previa, borrar, y con el API apagado el error del listado, el error al
-  publicar (sin perder lo escrito) y «Reintentar» al volver a encenderlo.
+  publicar (sin perder lo escrito) y «Reintentar» al volver a encenderlo. Con `keepPreviousData`: al cambiar a
+  «Postre» las 4 tarjetas anteriores siguen a la vista atenuadas, con «Actualizando…», hasta que llega la nueva
+  lista, y al volver a «Todas» sale al instante desde la caché.
 
 ## Autopsia
 **1. Validar la respuesta del API receta a receta y descartar las malas.** `obtenerRecetas` hace
