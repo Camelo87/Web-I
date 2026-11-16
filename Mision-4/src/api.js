@@ -10,7 +10,7 @@ async function pedir(ruta, opciones) {
     respuesta = await fetch(API + ruta, opciones);
   } catch (error) {
     if (error.name === "AbortError") throw error; // lo canceló TanStack Query: no es un fallo
-    throw new Error("No hay conexión con el API. ¿Has arrancado el proyecto con «npm run dev»?");
+    throw new Error("No hay conexión con el API. ¿Has arrancado el proyecto con «npm run dev»?", { cause: error });
   }
   // fetch solo falla con errores de red: un 404 o un 500 hay que comprobarlo a mano.
   if (!respuesta.ok) throw new Error(`El servidor respondió con un error ${respuesta.status}`);
