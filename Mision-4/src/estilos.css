@@ -1,0 +1,6 @@
+body { font-family: system-ui, sans-serif; background: #fff8ee; color: #3b2a1a; margin: 0; }
+main { max-width: 960px; margin: 0 auto; padding: 24px 16px; }
+h1 { margin-bottom: 0; }
+.sub { margin-top: 4px; color: #7a5f45; }
+.opcion { display: block; margin: 12px 0; }
+.resumen { font-size: .9rem; color: #7a5f45; }

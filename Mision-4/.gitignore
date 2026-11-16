@@ -1,0 +1,4 @@
+node_modules
+dist
+# La base de datos de json-server cambia al publicar: se genera desde db.inicial.json
+db.json

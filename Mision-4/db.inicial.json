@@ -1,0 +1,89 @@
+{
+  "recetas": [
+    {
+      "id": "1",
+      "nombre": "Tortilla de patatas",
+      "autor": "Lucía",
+      "categoria": "principal",
+      "dificultad": "media",
+      "raciones": 4,
+      "minutos": 45,
+      "vegetariana": true,
+      "ingredientes": [
+        { "nombre": "Patatas", "cantidad": "4 medianas" },
+        { "nombre": "Huevos", "cantidad": "6" },
+        { "nombre": "Cebolla", "cantidad": "1" },
+        { "nombre": "Aceite de oliva", "cantidad": "200 ml" },
+        { "nombre": "Sal", "cantidad": "al gusto" }
+      ],
+      "pasos": "Pela y corta las patatas y la cebolla, fríelas a fuego lento en abundante aceite, escúrrelas y mézclalas con los huevos batidos. Cuaja la tortilla por los dos lados.",
+      "creadaEn": "2026-11-10T09:30:00.000Z"
+    },
+    {
+      "id": "2",
+      "nombre": "Tostadas con tomate",
+      "autor": "Marcos",
+      "categoria": "desayuno",
+      "dificultad": "facil",
+      "raciones": 2,
+      "minutos": 10,
+      "vegetariana": true,
+      "ingredientes": [
+        { "nombre": "Pan de pueblo", "cantidad": "4 rebanadas" },
+        { "nombre": "Tomate maduro", "cantidad": "2" },
+        { "nombre": "Aceite de oliva", "cantidad": "un chorro" }
+      ],
+      "pasos": "Tuesta el pan, ralla el tomate por encima y termina con un chorro de aceite y una pizca de sal.",
+      "creadaEn": "2026-11-11T08:00:00.000Z"
+    },
+    {
+      "id": "3",
+      "nombre": "Pollo al ajillo",
+      "autor": "Andrea",
+      "categoria": "principal",
+      "dificultad": "media",
+      "raciones": 4,
+      "minutos": 50,
+      "vegetariana": false,
+      "ingredientes": [
+        { "nombre": "Pollo troceado", "cantidad": "1 kg" },
+        { "nombre": "Ajo", "cantidad": "1 cabeza" },
+        { "nombre": "Vino blanco", "cantidad": "150 ml" },
+        { "nombre": "Aceite de oliva", "cantidad": "100 ml" }
+      ],
+      "pasos": "Dora el pollo salpimentado en el aceite, añade los ajos laminados y, cuando cojan color, el vino. Deja reducir a fuego medio hasta que el pollo esté hecho.",
+      "creadaEn": "2026-11-12T19:15:00.000Z"
+    },
+    {
+      "id": "4",
+      "nombre": "Natillas caseras",
+      "autor": "Lucía",
+      "categoria": "postre",
+      "dificultad": "media",
+      "raciones": 6,
+      "minutos": 30,
+      "vegetariana": true,
+      "ingredientes": [
+        { "nombre": "Leche", "cantidad": "1 litro" },
+        { "nombre": "Yemas de huevo", "cantidad": "6" },
+        { "nombre": "Azúcar", "cantidad": "150 g" },
+        { "nombre": "Maicena", "cantidad": "2 cucharadas" },
+        { "nombre": "Canela en rama", "cantidad": "1" }
+      ],
+      "pasos": "Infusiona la leche con la canela, mezcla las yemas con el azúcar y la maicena, únelo todo y remueve a fuego suave hasta que espese sin que llegue a hervir.",
+      "creadaEn": "2026-11-13T17:45:00.000Z"
+    },
+    {
+      "id": "corrupta",
+      "nombre": "Bizcocho misterioso",
+      "autor": "",
+      "categoria": "merienda",
+      "raciones": "ocho",
+      "minutos": 40,
+      "vegetariana": true,
+      "ingredientes": "harina, huevos y azúcar",
+      "pasos": "Dato corrupto a propósito: sirve para demostrar que la app valida la respuesta del API con Zod y la descarta.",
+      "creadaEn": "ayer"
+    }
+  ]
+}
